@@ -21,7 +21,7 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
-    # 1. Menyuntikkan Kunci FCM dari Secret
+    # 1. Menyuntikkan Kunci FCM dari Secret (Memakai JSON yang sudah diupdate)
     - name: Inject Google Services JSON (FCM)
       env:
         FCM_BASE64: ${{ secrets.FCM_CONFIG_BASE64 }}
@@ -35,10 +35,10 @@ jobs:
         # Ganti URL default ntfy.sh ke URL Anda: https://notif.bc13.my.id/
         sed -i 's|https://ntfy.sh|https://notif.bc13.my.id/|g' app/src/main/res/values/strings.xml
         
-        # Mengubah nama aplikasi dari "ntfy" menjadi "Desa Cluring Notif"
-        sed -i 's|<string name="app_name">ntfy</string>|<string name="app_name">Desa Cluring Notif</string>|g' app/src/main/res/values/strings.xml
+        # PERBAIKAN NAMA APLIKASI: Mengubah label "ntfy" menjadi "Desa Cluring Notif"
+        sed -i 's|ntfy</string>|Desa Cluring Notif</string>|g' app/src/main/res/values/strings.xml
         
-        # PERBAIKAN: Mengubah PACKAGE NAME (applicationId) agar cocok dengan Firebase: ntfy.desacluring
+        # PERBAIKAN PACKAGE NAME (applicationId) agar cocok dengan Firebase: ntfy.desacluring
         sed -i 's|applicationId "io.heckel.ntfy"|applicationId "ntfy.desacluring"|g' app/build.gradle
         
     - name: Grant Execute Permission for Gradle

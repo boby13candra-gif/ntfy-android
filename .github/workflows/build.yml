@@ -29,14 +29,17 @@ jobs:
         # Mengubah Base64 Secret menjadi file google-services.json
         echo "$FCM_BASE64" | base64 -d > app/google-services.json
 
-    # 2. Mengubah URL Server Default DAN NAMA APLIKASI (Koreksi Nama Aplikasi)
-    - name: Change Default Server URL and App Name
+    # 2. Mengubah URL Server Default, Nama Aplikasi, DAN PACKAGE NAME (FIX BARU)
+    - name: Apply Custom Configurations
       run: |
         # Ganti URL default ntfy.sh ke URL Anda: https://notif.bc13.my.id/
         sed -i 's|https://ntfy.sh|https://notif.bc13.my.id/|g' app/src/main/res/values/strings.xml
         
         # Mengubah nama aplikasi dari "ntfy" menjadi "Desa Cluring Notif"
         sed -i 's|<string name="app_name">ntfy</string>|<string name="app_name">Desa Cluring Notif</string>|g' app/src/main/res/values/strings.xml
+        
+        # PERBAIKAN: Mengubah PACKAGE NAME (applicationId) agar cocok dengan Firebase: ntfy.desacluring
+        sed -i 's|applicationId "io.heckel.ntfy"|applicationId "ntfy.desacluring"|g' app/build.gradle
         
     - name: Grant Execute Permission for Gradle
       run: chmod +x gradlew

@@ -29,7 +29,7 @@ jobs:
         # Mengubah Base64 Secret menjadi file google-services.json
         echo "$FCM_BASE64" | base64 -d > app/google-services.json
 
-    # 2. Mengubah URL Server Default, Nama Aplikasi, DAN PACKAGE NAME (FIX BARU)
+    # 2. Apply Custom Configurations (URL, Nama Aplikasi, dan Package Name)
     - name: Apply Custom Configurations
       run: |
         # Ganti URL default ntfy.sh ke URL Anda: https://notif.bc13.my.id/
@@ -44,13 +44,13 @@ jobs:
     - name: Grant Execute Permission for Gradle
       run: chmod +x gradlew
 
-    # 3. Menjalankan Kompilasi Rilis
-    - name: Assemble Play Release APK
-      run: ./gradlew assemblePlayRelease
+    # 3. Menjalankan Kompilasi DEBUG (otomatis ditandatangani)
+    - name: Assemble Debug APK
+      run: ./gradlew assembleDebug
 
     # 4. Mengunggah Hasil APK
-    - name: Upload Release APK
+    - name: Upload Debug APK
       uses: actions/upload-artifact@v4
       with:
-        name: ntfy-custom-apk
-        path: app/build/outputs/apk/play/release/*.apk
+        name: ntfy-custom-apk-debug
+        path: app/build/outputs/apk/debug/*.apk
